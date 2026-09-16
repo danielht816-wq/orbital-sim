@@ -1,0 +1,5 @@
+G 0
+dt 0.01
+steps 2000
+center BodyA
+output output/collision_results.csv

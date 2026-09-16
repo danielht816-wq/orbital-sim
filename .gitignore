@@ -1,0 +1,24 @@
+# Visual Studio and build files
+.vs/
+x64/
+Debug/
+Release/
+*.vcxproj.user
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Frontend dependencies and builds
+node_modules/
+dist/
+
+# Local secrets
+.env
+.env.*
+!.env.example
+
+# Generated simulation output
+output/
