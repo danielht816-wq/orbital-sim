@@ -20,7 +20,7 @@ function App() {
     const [status, setStatus] = useState('')
     const [isRunning, setIsRunning] = useState(false)
     const [scenarios, setScenarios] = useState<Scenario[]>([])
-    const [selectedScenario, setSelectedScenario] = useState('earthsunmoon')
+    const [selectedScenario, setSelectedScenario] = useState('')
     const [positions, setPositions] = useState<Position[]>([])
     const [currentStep, setCurrentStep] = useState(1)
     const [isPlaying, setIsPlaying] = useState(false)
@@ -113,113 +113,170 @@ function App() {
 
     return (
         <main>
-            <h1>Orbital Simulator</h1>
-            <p>Choose a scenario and explore its motion.</p>
-            <label>
-                Scenario:
-                <select
-                    value={selectedScenario}
-                    onChange={(event) => setSelectedScenario(event.target.value)}
-                    disabled={scenarios.length === 0 || isRunning}
-                >
-                    {scenarios.map((scenario) => (
-                        <option key={scenario.id} value={scenario.id}>
-                            {scenario.name}
-                        </option>
-                    ))}
-                </select>
-                <p>Selected scenario ID: {selectedScenario}</p>
-            </label>
-            <label>
-                Simulation steps:
-                <input
-                    type="number"
-                    min={1}
-                    max={10000}
-                    value={steps}
-                    onChange={(event) => setSteps(Number(event.target.value))}
-                />
-                <button onClick={handleRun} disabled={isRunning}>
-                    {isRunning ? 'Running...' : 'Run simulation'}
-                </button>
+            <h1 className='title'>Orbital Simulator</h1>
+            <h6 id='by-header'>by Daniel Hayat</h6>
+
+            <div className='selection-container'>
+                <div className='accordion scenario-selector'>
+                    <div className='accordion-item'>
+                        <h2 className='accordion-header'>
+                            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                Choose the body scenario you would like to view!
+                            </button>
+                        </h2>
+                        <div id="collapseOne" className="accordion-collapse collapse hide" data-bs-parent="#accordionExample">
+                            <div className="accordion-body">
+                                <div className="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                    <input 
+                                        type="radio" 
+                                        className="btn-check" 
+                                        name="btnradio" 
+                                        id="btnradio1" 
+                                        autoComplete="off"
+                                        checked={selectedScenario === 'earthsunmoon'}
+                                        onChange={() => setSelectedScenario('earthsunmoon')}
+                                        disabled={isRunning}
+                                    />
+                                    <label className="btn btn-earthsunmoon scenario-btn" htmlFor="btnradio1">Earth, Sun, and Moon</label>
+
+                                    <input 
+                                        type="radio" 
+                                        className="btn-check" 
+                                        name="btnradio" 
+                                        id="btnradio2" 
+                                        autoComplete="off"
+                                        checked={selectedScenario === 'binarystar'}
+                                        onChange={() => setSelectedScenario('binarystar')}
+                                        disabled={isRunning}
+                                    />
+                                    <label className="btn btn-binarystars scenario-btn" htmlFor="btnradio2">Binary Stars</label>
+
+                                    <input 
+                                        type="radio" 
+                                        className="btn-check" 
+                                        name="btnradio" 
+                                        id="btnradio3" 
+                                        autoComplete="off"
+                                        checked={selectedScenario === 'collisiontest'}
+                                        onChange={() => setSelectedScenario('collisiontest')}
+                                        disabled={isRunning}
+                                    />
+                                    <label className="btn btn-collision scenario-btn" htmlFor="btnradio3">Collision Test</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className='name-btn-row'>
+                    <div className="card scenario-name">
+                        <div id='selected-scenario-title'>
+                            <h2 className='card-title'>Selected scenario: </h2>
+                        </div>
+                        <div id='current-scenario'>
+                            <h2>{selectedScenario}</h2>
+                        </div>
+                    </div>
+
+                    <div className='run-sim-btn'>
+                        <input
+                            type="number"
+                            min={1}
+                            max={10000}
+                            value={steps}
+                            placeholder="Steps to run"
+                            onChange={(event) => setSteps(Number(event.target.value))}
+                        />
+                        <button
+                            className='button'
+                            onClick={handleRun} 
+                            disabled={isRunning || selectedScenario === ''}
+                        >
+                            {isRunning ? 'Running...' : 'Run simulation'}
+                        </button>
+
+                        
+                    </div>
+                </div>
 
                 <p role="status">{status}</p>
 
-                {submittedSteps != null && (
-                    <p>Last submitted step count: {submittedSteps}</p>
+                    {submittedSteps != null && (
+                        <p>Last submitted step count: {submittedSteps}</p>
+                    )}
+                <p>Requested steps: {steps}</p>
+                <p>Stored positions: {positions.length}</p>
+
+                <button
+                    disabled={positions.length === 0 || isRunning}
+                    onClick={() => {
+                        if (!isPlaying && currentStep >= lastStep) {
+                            setCurrentStep(1)
+                        }
+                        setIsPlaying(!isPlaying)
+                    }}
+                >
+                    {isPlaying ? 'Pause' : 'Play'}
+                </button>
+                <label>
+                    Playback delay: {playbackDelay} ms
+                    <input
+                        type="range"
+                        min={20}
+                        max={300}
+                        step={10}
+                        value={playbackDelay}
+                        onChange={(event) => setPlaybackDelay(Number(event.target.value))}
+                />
+                </label>
+
+                <label>
+                    Displayed step: {currentStep}
+                    <input
+                        type="range"
+                        min={1}
+                        max={lastStep}
+                        value={currentStep}
+                        disabled={positions.length === 0}
+                        onChange={(event) => setCurrentStep(Number(event.target.value))}
+                        />  
+                </label>
+                {positions.length > 0 && (
+                    <p>
+                        First record: {positions[0].body},
+                        step {positions[0].step},
+                        x = {positions[0].x},
+                        y = {positions[0].y}
+                    </p>
                 )}
-            </label>
+                <ul style={{ listStyle: "none"}}>
+                    {visiblePositions.map((position) => (
+                        <li key={position.body}>
+                            {position.body}: x = {position.x}, y = {position.y}
+                        </li>
+                    ))}
+                </ul>
+            </div>
 
-            <p>Requested steps: {steps}</p>
-            <p>Stored positions: {positions.length}</p>
-
-            <button
-                disabled={positions.length === 0 || isRunning}
-                onClick={() => {
-                    if (!isPlaying && currentStep >= lastStep) {
-                        setCurrentStep(1)
-                    }
-                    setIsPlaying(!isPlaying)
-                }}
-            >
-                {isPlaying ? 'Pause' : 'Play'}
-            </button>
-            <label>
-                Playback delay: {playbackDelay} ms
-                <input
-                    type="range"
-                    min={20}
-                    max={300}
-                    step={10}
-                    value={playbackDelay}
-                    onChange={(event) => setPlaybackDelay(Number(event.target.value))}
-              />
-            </label>
-
-            <label>
-                Displayed step: {currentStep}
-                <input
-                    type="range"
-                    min={1}
-                    max={lastStep}
-                    value={currentStep}
-                    disabled={positions.length === 0}
-                    onChange={(event) => setCurrentStep(Number(event.target.value))}
-                    />  
-            </label>
-            {positions.length > 0 && (
-                <p>
-                    First record: {positions[0].body},
-                    step {positions[0].step},
-                    x = {positions[0].x},
-                    y = {positions[0].y}
-                </p>
-            )}
-            <ul>
-                {visiblePositions.map((position) => (
-                    <li key={position.body}>
-                        {position.body}: x = {position.x}, y = {position.y}
-                    </li>
-                ))}
-            </ul>
-            <svg
-                width={500}
-                height={300}
-                viewBox="0 0 500 300"
-                style={{border: '2px solid gray'}}
-            >
-                {visiblePositions.map((position) => (
-                    <circle
-                        key={position.body}
-                        cx={250 + position.x}
-                        cy={150 - position.y}
-                        r={6}
-                        fill="orange"
-                    >
-                        <title>{position.body}</title>
-                    </circle>
-                ))}
-            </svg>
+            <div id='displayBox'>
+                <svg
+                    width="50%"
+                    viewBox="0 0 500 300"
+                    style={{border: '2px solid gray'}}
+                >
+                    {visiblePositions.map((position) => (
+                        <circle
+                            key={position.body}
+                            cx={250 + position.x}
+                            cy={150 - position.y}
+                            r={6}
+                            fill="orange"
+                        >
+                            <title>{position.body}</title>
+                        </circle>
+                    ))}
+                </svg>
+            </div>
         </main>
     )
 }

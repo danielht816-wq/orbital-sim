@@ -1,7 +1,7 @@
 :root {
   --text: #6b6375;
   --text-h: #08060d;
-  --bg: #fff;
+  --bg: #205730;
   --border: #e5e4e7;
   --code-bg: #f4f3ec;
   --accent: #aa3bff;
@@ -43,6 +43,15 @@
     --social-bg: rgba(47, 48, 58, 0.5);
     --shadow:
       rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+    --purple-100: #e2d9f3;
+    --purple-200: #c5b3e6;
+    --purple-300: #a98eda;
+    --purple-400: #8c68cd;
+    --purple-500: #6f42c1;
+    --purple-600: #59359a;
+    --purple-700: #432874;
+    --purple-800: #2c1a4d;
+    --purple-900: #160d27;
   }
 
   #social .button-icon {
@@ -50,10 +59,13 @@
   }
 }
 
+
 #root {
-  width: 1126px;
+  width: 100%;
   max-width: 100%;
   margin: 0 auto;
+  padding: 24px;
+  padding-top: 5px;
   text-align: center;
   border-inline: 1px solid var(--border);
   min-height: 100svh;
@@ -91,6 +103,7 @@ h2 {
     font-size: 20px;
   }
 }
+
 p {
   margin: 0;
 }
@@ -108,4 +121,187 @@ code {
   line-height: 135%;
   padding: 4px 8px;
   background: var(--code-bg);
+}
+
+.button {
+  background-color: #E6CDE2;
+  color: #08060d;
+}
+
+.title {
+  text-align: left;
+}
+
+.selection-container {
+  width: 50%;
+  margin-inline: auto;
+}
+
+.scenario-selector {
+  
+
+  --bs-accordion-btn-bg: #2c1a4d;
+  --bs-accordion-btn-color: #f3eef9;
+
+  --bs-accordion-active-bg: #59359a;
+  --bs-accordion-active-color: #ffffff;
+
+  --bs-accordion-bg: #21259;
+  --bs-accordion-color: #f3eef9;
+
+  --bs-accordion-border-color: #8c68cd;
+  --bs-accordion-btn-focus-box-shadow:
+    0 0 0 0.25rem rgba(169, 142, 218, 0.35);
+}
+
+.name-btn-row {
+  display: flex;
+  align-items: stretch;
+  gap: 1rem;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+
+.scenario-name {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  border-color: #8c68cd;
+  max-width: 100%;
+  width: 400px;
+  flex: 1;
+  
+}
+
+#selected-scenario-title {
+  background-color: #59359a;
+  flex: 1;
+  padding: 10px;
+}
+#current-scenario {
+  flex: 1;
+  padding: 10px;
+}
+
+.run-sim-btn {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  min-width: 0;
+  border-radius: 2rem;
+}
+.run-sim-btn > input {
+  flex: 1;
+  min-width: 0;
+  margin: 10px 0;
+  border-radius: 5px 0 0 5px;
+  border: 1px solid #8c68cd;
+}
+.run-sim-btn > button {
+  flex: 1;
+  margin: 10px 0;
+  padding: 0.75rem 1rem;
+  border-radius: 0 5px 5px 0;
+  border: 5px solid #8c68cd;
+}
+
+
+.accordion-button {
+  justify-content: center;
+  text-align: center;
+
+}
+
+.accordion-button::after {
+  margin-left: 0.75rem;
+}
+
+#by-header {
+  text-align: left;
+  margin-top: -20px;
+  margin-left: 10px;
+}
+
+.btn-earthsunmoon {
+  --bs-btn-bg: rgb(205, 205, 46);
+  --bs-btn-color: #171b2b;
+  --bs-btn-border-color: #a3a324;
+  
+
+  --bs-btn-hover-bg: #dede58;
+  --bs-btn-hover-color: #171b2b;
+  --bs-btn-hover-border-color: #eeee91;
+
+  --bs-btn-active-bg: #b8a522;
+  --bs-btn-active-color: #101321;
+  --bs-btn-active-border-color: #fff3a6;
+
+  --bs-btn-focus-shadow-rgb: 205, 205, 46;
+}
+
+.btn-check:not(:checked) + .btn-earthsunmoon:hover {
+  background-color: var(--bs-btn-hover-bg);
+  color: var(--bs-btn-hover-color);
+  border-color: var(--bs-btn-hover-border-color);
+}
+
+.btn-binarystars {
+  --bs-btn-bg: var(--bs-success);
+  --bs-btn-color: white;
+
+  --bs-btn-hover-bg: #1ACB79;
+  --bs-btn-hover-color: white;
+
+  --bs-btn-active-bg: #0d5634;
+  --bs-btn-active-color: white;
+  --bs-btn-active-border-color: #66e2a8;
+  
+  --bs-btn-focus-shadow-rgb: 205, 205, 46;
+}
+.btn-check:not(:checked) + .btn-binarystars:hover {
+  background-color: #1ACB79;
+  color: white;
+}
+
+
+.btn-collision {
+  --bs-btn-bg: rgb(169, 46, 46);
+  --bs-btn-color: white;
+
+  --bs-btn-hover-bg: #DE6F79;
+  --bs-btn-hover-color: white;
+
+  --bs-btn-active-bg: rgb(99, 25, 25);
+  --bs-btn-active-color: white;
+  --bs-btn-active-border-color: #f66b6b;
+  
+  --bs-btn-focus-shadow-rgb: 222, 165, 170;
+}
+.btn-check:not(:checked) + .btn-collision:hover {
+  background-color: #DE6F79;
+  color: white;
+}
+
+.scenario-btn {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+
+  font-family: "Segoe UI", system-ui, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  width: 300px;
+  height: 100px;
+  
+  transition: 
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    box-shadow 180ms ease;
+}
+.btn-check:not(:checked) + .scenario-btn:hover {
+  box-shadow: inset 0 0 0 1px currentColor;
 }
